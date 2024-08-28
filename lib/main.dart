@@ -1,42 +1,43 @@
+
+import 'package:demo/ui/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'authentication/login_page.dart';
 import 'authentication/signup_page.dart';
 import 'firebase_options.dart';
-import 'pages/home_page.dart';
-import 'providers/weather_provider.dart';
 
-void main() async {
+Future<void> main() async {
+  // Initialize Firebase
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } catch (e) {
-    print("Firebase initialization failed: $e");
-  }
-  runApp(MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Run the app
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => WeatherProvider(),
-      child: MaterialApp(
+    return MaterialApp(
         routes: {
           "/home": (context) => HomePage(),
           "/login": (context) => LoginPage(),
           "/signup": (context) => SignupPage()
+          
         },
         debugShowCheckedModeBanner: false,
-        title: 'Weather App',
+        title: 'Currency Converter',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
         ),
-        home: LoginPage(),
-      ),
-    );
+        home:  LoginPage(),
+        );
   }
 }
